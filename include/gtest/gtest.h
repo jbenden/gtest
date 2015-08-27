@@ -1466,6 +1466,58 @@ AssertionResult CmpHelperEQ(const char* expected_expression,
                    false);
 }
 
+// The helper function for {ASSERT|EXPECT}_EQ.
+GTEST_API_ AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const std::string& expected,
+                            const std::string& actual); 
+
+// The helper function for {ASSERT|EXPECT}_EQ.
+GTEST_API_ AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const std::string& expected,
+                            const char* actual);
+
+// The helper function for {ASSERT|EXPECT}_EQ.
+GTEST_API_ AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const char* expected,
+                            const std::string& actual);
+
+// The helper function for {ASSERT|EXPECT}_EQ.
+GTEST_API_ AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const char* expected,
+                            const char* actual);
+
+#if !defined(_MSC_VER) || defined(_NATIVE_WCHAR_T_DEFINED)
+// The helper function for {ASSERT|EXPECT}_EQ.
+GTEST_API_ AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const wchar_t* expected,
+                            const wchar_t* actual);
+
+// The helper function for {ASSERT|EXPECT}_EQ.
+GTEST_API_ AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const std::wstring& expected,
+                            const wchar_t* actual);
+
+// The helper function for {ASSERT|EXPECT}_EQ.
+GTEST_API_ AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const wchar_t* expected,
+                            const std::wstring& actual);
+#endif
+
+#if GTEST_HAS_STD_WSTRING
+// The helper function for {ASSERT|EXPECT}_EQ.
+GTEST_API_ AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const std::wstring& expected,
+                            const std::wstring& actual); 
+#endif
+
 // With this overloaded version, we allow anonymous enums to be used
 // in {ASSERT|EXPECT}_EQ when compiled with gcc 4, as anonymous enums
 // can be implicitly cast to BiggestInt.

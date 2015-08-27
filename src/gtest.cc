@@ -1109,6 +1109,229 @@ AssertionResult DoubleLE(const char* expr1, const char* expr2,
 
 namespace internal {
 
+// The helper function for {ASSERT|EXPECT}_EQ.
+AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const char* expected,
+                            const std::string& actual) {
+#ifdef _MSC_VER
+# pragma warning(push)          // Saves the current warning state.
+# pragma warning(disable:4389)  // Temporarily disables warning on
+                                // signed/unsigned mismatch.
+#endif
+
+  if (actual.size() == strlen(expected) &&
+      actual.compare(expected) == 0) {
+    return AssertionSuccess();
+  }
+
+#ifdef _MSC_VER
+# pragma warning(pop)          // Restores the warning state.
+#endif
+
+  return EqFailure(expected_expression,
+                   actual_expression,
+                   FormatForComparisonFailureMessage(expected, actual),
+                   FormatForComparisonFailureMessage(actual, expected),
+                   false);
+}
+
+// The helper function for {ASSERT|EXPECT}_EQ.
+AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const std::string& expected,
+                            const char* actual) {
+#ifdef _MSC_VER
+# pragma warning(push)          // Saves the current warning state.
+# pragma warning(disable:4389)  // Temporarily disables warning on
+                                // signed/unsigned mismatch.
+#endif
+
+  if (strlen(actual) == expected.size() &&
+      expected.compare(actual) == 0) {
+    return AssertionSuccess();
+  }
+
+#ifdef _MSC_VER
+# pragma warning(pop)          // Restores the warning state.
+#endif
+
+  return EqFailure(expected_expression,
+                   actual_expression,
+                   FormatForComparisonFailureMessage(expected, actual),
+                   FormatForComparisonFailureMessage(actual, expected),
+                   false);
+}
+
+// The helper function for {ASSERT|EXPECT}_EQ.
+AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const char* expected,
+                            const char* actual) {
+#ifdef _MSC_VER
+# pragma warning(push)          // Saves the current warning state.
+# pragma warning(disable:4389)  // Temporarily disables warning on
+                                // signed/unsigned mismatch.
+#endif
+
+  if ((actual == NULL &&
+      expected == NULL) || (actual && expected &&
+      actual == expected)) {
+      //strlen(actual) == strlen(expected) &&
+      //strcmp(actual, expected) == 0)) {
+    return AssertionSuccess();
+  }
+
+#ifdef _MSC_VER
+# pragma warning(pop)          // Restores the warning state.
+#endif
+
+  return EqFailure(expected_expression,
+                   actual_expression,
+                   FormatForComparisonFailureMessage(expected, actual),
+                   FormatForComparisonFailureMessage(actual, expected),
+                   false);
+}
+
+#if !defined(_MSC_VER) || defined(_NATIVE_WCHAR_T_DEFINED)
+// The helper function for {ASSERT|EXPECT}_EQ.
+AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const wchar_t* expected,
+                            const wchar_t* actual) {
+#ifdef _MSC_VER
+# pragma warning(push)          // Saves the current warning state.
+# pragma warning(disable:4389)  // Temporarily disables warning on
+                                // signed/unsigned mismatch.
+#endif
+
+  if ((actual == NULL &&
+      expected == NULL) || (actual && expected &&
+      actual == expected &&
+      wcslen(actual) == wcslen(expected) &&
+      wcscmp(actual, expected) == 0)) {
+    return AssertionSuccess();
+  }
+
+#ifdef _MSC_VER
+# pragma warning(pop)          // Restores the warning state.
+#endif
+
+  return EqFailure(expected_expression,
+                   actual_expression,
+                   FormatForComparisonFailureMessage(expected, actual),
+                   FormatForComparisonFailureMessage(actual, expected),
+                   false);
+}
+
+// The helper function for {ASSERT|EXPECT}_EQ.
+AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const wchar_t* expected,
+                            const std::wstring& actual) {
+#ifdef _MSC_VER
+# pragma warning(push)          // Saves the current warning state.
+# pragma warning(disable:4389)  // Temporarily disables warning on
+                                // signed/unsigned mismatch.
+#endif
+
+  if (actual.size() == wcslen(expected) &&
+      actual.compare(expected) == 0) {
+    return AssertionSuccess();
+  }
+
+#ifdef _MSC_VER
+# pragma warning(pop)          // Restores the warning state.
+#endif
+
+  return EqFailure(expected_expression,
+                   actual_expression,
+                   FormatForComparisonFailureMessage(expected, actual),
+                   FormatForComparisonFailureMessage(actual, expected),
+                   false);
+}
+// The helper function for {ASSERT|EXPECT}_EQ.
+AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const std::wstring& expected,
+                            const wchar_t* actual) {
+#ifdef _MSC_VER
+# pragma warning(push)          // Saves the current warning state.
+# pragma warning(disable:4389)  // Temporarily disables warning on
+                                // signed/unsigned mismatch.
+#endif
+
+  if (wcslen(actual) == expected.size() &&
+      expected.compare(actual) == 0) {
+    return AssertionSuccess();
+  }
+
+#ifdef _MSC_VER
+# pragma warning(pop)          // Restores the warning state.
+#endif
+
+  return EqFailure(expected_expression,
+                   actual_expression,
+                   FormatForComparisonFailureMessage(expected, actual),
+                   FormatForComparisonFailureMessage(actual, expected),
+                   false);
+}
+#endif
+
+// The helper function for {ASSERT|EXPECT}_EQ.
+AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const std::string& expected,
+                            const std::string& actual) {
+#ifdef _MSC_VER
+# pragma warning(push)          // Saves the current warning state.
+# pragma warning(disable:4389)  // Temporarily disables warning on
+                                // signed/unsigned mismatch.
+#endif
+
+  if (actual.compare(expected) == 0) {
+    return AssertionSuccess();
+  }
+
+#ifdef _MSC_VER
+# pragma warning(pop)          // Restores the warning state.
+#endif
+
+  return EqFailure(expected_expression,
+                   actual_expression,
+                   FormatForComparisonFailureMessage(expected, actual),
+                   FormatForComparisonFailureMessage(actual, expected),
+                   false);
+}
+
+#if GTEST_HAS_STD_WSTRING
+// The helper function for {ASSERT|EXPECT}_EQ.
+AssertionResult CmpHelperEQ(const char* expected_expression,
+                            const char* actual_expression,
+                            const std::wstring& expected,
+                            const std::wstring& actual) {
+#ifdef _MSC_VER
+# pragma warning(push)          // Saves the current warning state.
+# pragma warning(disable:4389)  // Temporarily disables warning on
+                                // signed/unsigned mismatch.
+#endif
+
+  if (actual.compare(expected) == 0) {
+    return AssertionSuccess();
+  }
+
+#ifdef _MSC_VER
+# pragma warning(pop)          // Restores the warning state.
+#endif
+
+  return EqFailure(expected_expression,
+                   actual_expression,
+                   FormatForComparisonFailureMessage(expected, actual),
+                   FormatForComparisonFailureMessage(actual, expected),
+                   false);
+}
+#endif
+
 // The helper function for {ASSERT|EXPECT}_EQ with int or enum
 // arguments.
 AssertionResult CmpHelperEQ(const char* expected_expression,

@@ -7329,7 +7329,7 @@ TEST(NativeArrayTest, ConstructorFromArrayWorks) {
   const int a[3] = { 0, 1, 2 };
   NativeArray<int> na(a, 3, kReference);
   EXPECT_EQ(3U, na.size());
-  EXPECT_EQ(a, na.begin());
+  EXPECT_EQ(a, *(na.begin()));
 }
 
 TEST(NativeArrayTest, CreatesAndDeletesCopyOfArrayWhenAskedTo) {
