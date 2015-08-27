@@ -2092,6 +2092,10 @@ class UnitTestRecordPropertyTestEnvironment : public Environment {
 static Environment* record_property_env =
     AddGlobalTestEnvironment(new UnitTestRecordPropertyTestEnvironment);
 
+TEST(RecordPropertyEnv, ProperlyAllocatedOnStack) {
+  EXPECT_TRUE(record_property_env != NULL);
+}
+
 // This group of tests is for predicate assertions (ASSERT_PRED*, etc)
 // of various arities.  They do not attempt to be exhaustive.  Rather,
 // view them as smoke tests that can be easily reviewed and verified.
@@ -3969,7 +3973,7 @@ TEST(AssertionSyntaxTest, BasicAssertionsBehavesLikeSingleStatement) {
   if (AlwaysTrue())
     EXPECT_FALSE(false);
   else
-    ;  // NOLINT
+    {;}  // NOLINT
 
   if (AlwaysFalse())
     ASSERT_LT(1, 3);
@@ -4002,7 +4006,7 @@ TEST(AssertionSyntaxTest, ExceptionAssertionsBehavesLikeSingleStatement) {
   if (AlwaysTrue())
     EXPECT_THROW(ThrowAnInteger(), int);
   else
-    ;  // NOLINT
+    {;}  // NOLINT
 
   if (AlwaysFalse())
     EXPECT_NO_THROW(ThrowAnInteger());
@@ -4010,7 +4014,7 @@ TEST(AssertionSyntaxTest, ExceptionAssertionsBehavesLikeSingleStatement) {
   if (AlwaysTrue())
     EXPECT_NO_THROW(ThrowNothing());
   else
-    ;  // NOLINT
+    {;}  // NOLINT
 
   if (AlwaysFalse())
     EXPECT_ANY_THROW(ThrowNothing());
@@ -4018,7 +4022,7 @@ TEST(AssertionSyntaxTest, ExceptionAssertionsBehavesLikeSingleStatement) {
   if (AlwaysTrue())
     EXPECT_ANY_THROW(ThrowAnInteger());
   else
-    ;  // NOLINT
+    {;}  // NOLINT
 }
 #endif  // GTEST_HAS_EXCEPTIONS
 
@@ -4027,17 +4031,17 @@ TEST(AssertionSyntaxTest, NoFatalFailureAssertionsBehavesLikeSingleStatement) {
     EXPECT_NO_FATAL_FAILURE(FAIL()) << "This should never be executed. "
                                     << "It's a compilation test only.";
   else
-    ;  // NOLINT
+    {;}  // NOLINT
 
   if (AlwaysFalse())
     ASSERT_NO_FATAL_FAILURE(FAIL()) << "";
   else
-    ;  // NOLINT
+    {;}  // NOLINT
 
   if (AlwaysTrue())
     EXPECT_NO_FATAL_FAILURE(SUCCEED());
   else
-    ;  // NOLINT
+    {;}  // NOLINT
 
   if (AlwaysFalse())
     ;  // NOLINT

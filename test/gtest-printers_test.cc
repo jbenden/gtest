@@ -969,7 +969,7 @@ struct iterator {
 };
 
 TEST(PrintStlContainerTest, Iterator) {
-  iterator it = {};
+  iterator it = {0};
   EXPECT_EQ("1-byte object <00>", Print(it));
 }
 
@@ -980,7 +980,7 @@ struct const_iterator {
 };
 
 TEST(PrintStlContainerTest, ConstIterator) {
-  const_iterator it = {};
+  const_iterator it = {0};
   EXPECT_EQ("1-byte object <00>", Print(it));
 }
 

@@ -295,7 +295,7 @@ TEST_F(TestForDeathTest, SingleStatement) {
   else
     // This empty "else" branch is meant to ensure that EXPECT_DEATH
     // doesn't expand into an "if" statement without an "else"
-    ;
+    {;}
 
   if (AlwaysFalse())
     ASSERT_DEATH(return, "") << "did not die";
@@ -1325,7 +1325,7 @@ TEST(ConditionalDeathMacrosSyntaxDeathTest, SingleStatement) {
   else
     // This empty "else" branch is meant to ensure that EXPECT_DEATH
     // doesn't expand into an "if" statement without an "else"
-    ;  // NOLINT
+    {;}  // NOLINT
 
   if (AlwaysFalse())
     ASSERT_DEATH_IF_SUPPORTED(return, "") << "did not die";

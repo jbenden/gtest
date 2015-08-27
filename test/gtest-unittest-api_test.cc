@@ -54,9 +54,9 @@ class UnitTestHelper {
  public:
   // Returns the array of pointers to all test cases sorted by the test case
   // name.  The caller is responsible for deleting the array.
-  static TestCase const** const GetSortedTestCases() {
+  static TestCase const** GetSortedTestCases() {
     UnitTest& unit_test = *UnitTest::GetInstance();
-    TestCase const** const test_cases =
+    TestCase const** test_cases =
         new const TestCase*[unit_test.total_test_case_count()];
 
     for (int i = 0; i < unit_test.total_test_case_count(); ++i)
@@ -83,8 +83,8 @@ class UnitTestHelper {
   // Returns the array of pointers to all tests in a particular test case
   // sorted by the test name.  The caller is responsible for deleting the
   // array.
-  static TestInfo const** const GetSortedTests(const TestCase* test_case) {
-    TestInfo const** const tests =
+  static TestInfo const** GetSortedTests(const TestCase* test_case) {
+    TestInfo const** tests =
         new const TestInfo*[test_case->total_test_count()];
 
     for (int i = 0; i < test_case->total_test_count(); ++i)

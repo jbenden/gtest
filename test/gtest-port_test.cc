@@ -245,7 +245,7 @@ TEST(GtestCheckSyntaxTest, BehavesLikeASingleStatement) {
   if (AlwaysTrue())
     GTEST_CHECK_(true);
   else
-    ;  // NOLINT
+    {;}  // NOLINT
 
   if (AlwaysFalse())
     ;  // NOLINT
