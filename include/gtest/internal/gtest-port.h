@@ -905,12 +905,8 @@ class scoped_ptr {
   }
 
   void reset(T* p = NULL) {
-    if (p != ptr_) {
-      if (IsTrue(sizeof(T) > 0)) {  // Makes sure T is a complete type.
-        delete ptr_;
-      }
-      ptr_ = p;
-    }
+    delete ptr_;
+    ptr_ = p;
   }
 
  private:

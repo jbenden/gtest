@@ -92,8 +92,11 @@ class GTEST_API_ Message {
   // Constructs an empty Message.
   Message();
 
+  virtual ~Message() {}
+
   // Copy constructor.
-  Message(const Message& msg) : ss_(new ::std::stringstream) {  // NOLINT
+  Message(const Message& msg) {  // NOLINT
+    ss_.reset(new ::std::stringstream);
     *ss_ << msg.GetString();
   }
 
@@ -221,7 +224,7 @@ class GTEST_API_ Message {
 #endif  // GTEST_OS_SYMBIAN
 
   // We'll hold the text streamed to this object here.
-  const internal::scoped_ptr< ::std::stringstream> ss_;
+  internal::scoped_ptr< ::std::stringstream> ss_;
 
   // We declare (but don't implement) this to prevent the compiler
   // from implementing the assignment operator.

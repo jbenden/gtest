@@ -58,9 +58,23 @@ using ::std::ostream;
 // Prints a segment of bytes in the given object.
 void PrintByteSegmentInObjectTo(const unsigned char* obj_bytes, size_t start,
                                 size_t count, ostream* os) {
-  char text[5] = "";
-  for (size_t i = 0; i != count; i++) {
-    const size_t j = start + i;
+  int value = 0;
+
+  if (obj_bytes == NULL || count == 0) return;
+
+  unsigned char* ptr = (unsigned char*) calloc(1, (count + 1)+((count + 1)%16) );
+  if (!ptr) {
+#if GTEST_HAS_EXCEPTIONS
+    throw std::bad_alloc ();
+#else
+    std::cout << "MEMORY ALLOC ERROR." << std::endl;
+    exit(1);
+#endif
+  }
+  memcpy(ptr, obj_bytes, count);
+  size_t j = 0;
+  for (size_t i = 0; i != (count - start); i++) {
+    j = start + i;
     if (i != 0) {
       // Organizes the bytes into groups of 2 for easy parsing by
       // human.
@@ -69,9 +83,13 @@ void PrintByteSegmentInObjectTo(const unsigned char* obj_bytes, size_t start,
       else
         *os << '-';
     }
-    GTEST_SNPRINTF_(text, sizeof(text), "%02X", obj_bytes[j]);
-    *os << text;
+    assert(j <= (count + 1)+((count + 1)%16)); 
+    value = (ptr[j] & 0xFF);
+
+    *os << std::uppercase << std::hex << std::setw(2);
+    *os << std::setfill('0') << value << std::dec;
   }
+  free((void*) ptr);
 }
 
 // Prints the bytes in the given value to the given ostream.
@@ -93,7 +111,7 @@ void PrintBytesInObjectToImpl(const unsigned char* obj_bytes, size_t count,
     *os << " ... ";
     // Rounds up to 2-byte boundary.
     const size_t resume_pos = (count - kChunkSize + 1)/2*2;
-    PrintByteSegmentInObjectTo(obj_bytes, resume_pos, count - resume_pos, os);
+    PrintByteSegmentInObjectTo(obj_bytes, resume_pos, count, os);
   }
   *os << ">";
 }

@@ -1137,6 +1137,7 @@ class NativeArray {
 class GTEST_TEST_CLASS_NAME_(test_case_name, test_name) : public parent_class {\
  public:\
   GTEST_TEST_CLASS_NAME_(test_case_name, test_name)() {}\
+  virtual ~GTEST_TEST_CLASS_NAME_(test_case_name, test_name)() {}\
  private:\
   virtual void TestBody();\
   static ::testing::TestInfo* const test_info_ GTEST_ATTRIBUTE_UNUSED_;\

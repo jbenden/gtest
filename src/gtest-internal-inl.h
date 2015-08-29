@@ -338,6 +338,7 @@ inline void Shuffle(internal::Random* random, std::vector<E>* v) {
 template <typename T>
 static void Delete(T* x) {
   delete x;
+  x = NULL;
 }
 
 // A predicate that checks the key of a TestProperty against a known key.

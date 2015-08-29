@@ -622,7 +622,7 @@ class GTEST_API_ TestInfo {
  public:
   // Destructs a TestInfo object.  This function is not virtual, so
   // don't inherit from TestInfo.
-  ~TestInfo();
+  virtual ~TestInfo();
 
   // Returns the test case name.
   const char* test_case_name() const { return test_case_name_.c_str(); }
@@ -633,17 +633,15 @@ class GTEST_API_ TestInfo {
   // Returns the name of the parameter type, or NULL if this is not a typed
   // or a type-parameterized test.
   const char* type_param() const {
-    if (type_param_.get() != NULL)
+      if (!type_param_) return NULL;
       return type_param_->c_str();
-    return NULL;
   }
 
   // Returns the text representation of the value parameter, or NULL if this
   // is not a value-parameterized test.
   const char* value_param() const {
-    if (value_param_.get() != NULL)
+      if(!value_param_) return NULL;
       return value_param_->c_str();
-    return NULL;
   }
 
   // Returns true if this test should run, that is if the test is not
@@ -695,8 +693,8 @@ class GTEST_API_ TestInfo {
 
   // Constructs a TestInfo object. The newly constructed instance assumes
   // ownership of the factory object.
-  TestInfo(const std::string& test_case_name,
-           const std::string& name,
+  TestInfo(const char* test_case_name,
+           const char* name,
            const char* a_type_param,   // NULL if not a type-parameterized test
            const char* a_value_param,  // NULL if not a value-parameterized test
            internal::TypeId fixture_class_id,
@@ -717,14 +715,14 @@ class GTEST_API_ TestInfo {
   }
 
   // These fields are immutable properties of the test.
-  const std::string test_case_name_;     // Test case name
-  const std::string name_;               // Test name
+  std::string test_case_name_;     // Test case name
+  std::string name_;               // Test name
   // Name of the parameter type, or NULL if this is not a typed or a
   // type-parameterized test.
-  const internal::scoped_ptr<const ::std::string> type_param_;
+  std::string* type_param_;
   // Text representation of the value parameter, or NULL if this is not a
   // value-parameterized test.
-  const internal::scoped_ptr<const ::std::string> value_param_;
+  std::string* value_param_;
   const internal::TypeId fixture_class_id_;   // ID of the test fixture class
   bool should_run_;                 // True iff this test should run
   bool is_disabled_;                // True iff this test is disabled
@@ -899,7 +897,7 @@ class GTEST_API_ TestCase {
   std::string name_;
   // Name of the parameter type, or NULL if this is not a typed or a
   // type-parameterized test.
-  const internal::scoped_ptr<const ::std::string> type_param_;
+  internal::scoped_ptr<std::string> type_param_;
   // The vector of TestInfos in their original order.  It owns the
   // elements in the vector.
   std::vector<TestInfo*> test_info_list_;

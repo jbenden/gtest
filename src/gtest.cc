@@ -1120,7 +1120,7 @@ AssertionResult CmpHelperEQ(const char* expected_expression,
                                 // signed/unsigned mismatch.
 #endif
 
-  if (actual.size() == strlen(expected) &&
+  if (expected && actual.size() == strlen(expected) &&
       actual.compare(expected) == 0) {
     return AssertionSuccess();
   }
@@ -1147,7 +1147,7 @@ AssertionResult CmpHelperEQ(const char* expected_expression,
                                 // signed/unsigned mismatch.
 #endif
 
-  if (strlen(actual) == expected.size() &&
+  if (actual && strlen(actual) == expected.size() &&
       expected.compare(actual) == 0) {
     return AssertionSuccess();
   }
@@ -1885,7 +1885,6 @@ std::string StringStreamToString(::std::stringstream* ss) {
   const char* const end = start + str.length();
 
   std::string result;
-  result.reserve(2 * (end - start));
   for (const char* ch = start; ch != end; ++ch) {
     if (*ch == '\0') {
       result += "\\0";  // Replaces NUL with "\\0";
@@ -2397,8 +2396,8 @@ bool Test::HasNonfatalFailure() {
 
 // Constructs a TestInfo object. It assumes ownership of the test factory
 // object.
-TestInfo::TestInfo(const std::string& a_test_case_name,
-                   const std::string& a_name,
+TestInfo::TestInfo(const char* a_test_case_name,
+                   const char* a_name,
                    const char* a_type_param,
                    const char* a_value_param,
                    internal::TypeId fixture_class_id,
@@ -2415,7 +2414,11 @@ TestInfo::TestInfo(const std::string& a_test_case_name,
       result_() {}
 
 // Destructs a TestInfo object.
-TestInfo::~TestInfo() { delete factory_; }
+TestInfo::~TestInfo() {
+  delete type_param_;
+  delete value_param_;
+  delete factory_;
+}
 
 namespace internal {
 
@@ -2618,8 +2621,7 @@ TestCase::TestCase(const char* a_name, const char* a_type_param,
       set_up_tc_(set_up_tc),
       tear_down_tc_(tear_down_tc),
       should_run_(false),
-      elapsed_time_(0) {
-}
+      elapsed_time_(0) {}
 
 // Destructor of TestCase.
 TestCase::~TestCase() {
