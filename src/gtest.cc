@@ -878,7 +878,14 @@ bool String::CStringEquals(const char * lhs, const char * rhs) {
 
   if ( rhs == NULL ) return false;
 
-  return strcmp(lhs, rhs) == 0;
+  char *clhs = (char*) calloc(1, strlen(lhs)+1+(strlen(lhs)%16));
+  char *crhs = (char*) calloc(1, strlen(rhs)+1+(strlen(rhs)%16));
+
+  int ret = strcmp(clhs, crhs);
+
+  free(clhs); free(crhs);
+
+  return ret == 0;
 }
 
 #if GTEST_HAS_STD_WSTRING || GTEST_HAS_GLOBAL_WSTRING
