@@ -2839,8 +2839,7 @@ bool ShouldUseColor(bool stdout_is_tty) {
 
   return String::CaseInsensitiveCStringEquals(gtest_color, "yes") ||
       String::CaseInsensitiveCStringEquals(gtest_color, "true") ||
-      String::CaseInsensitiveCStringEquals(gtest_color, "t") ||
-      String::CStringEquals(gtest_color, "1");
+      String::CaseInsensitiveCStringEquals(gtest_color, "t");
   // We take "yes", "true", "t", and "1" as meaning "yes".  If the
   // value is neither one of these nor "auto", we treat it as "no" to
   // be conservative.
