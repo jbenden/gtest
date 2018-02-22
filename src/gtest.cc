@@ -881,6 +881,9 @@ bool String::CStringEquals(const char * lhs, const char * rhs) {
   char *clhs = (char*) calloc(1, strlen(lhs)+1+(strlen(lhs)%16));
   char *crhs = (char*) calloc(1, strlen(rhs)+1+(strlen(rhs)%16));
 
+  memcpy(clhs, lhs, strlen(lhs));
+  memcpy(crhs, rhs, strlen(rhs));
+
   int ret = strcmp(clhs, crhs);
 
   free(clhs); free(crhs);
